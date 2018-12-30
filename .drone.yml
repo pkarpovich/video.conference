@@ -14,5 +14,44 @@ steps:
     commands:
       - "npm i heroku -g"
       - "apk update && apk upgrade && apk add --no-cache bash git openssh"
-      - "echo $HEROKU_LOGIN"
       - "sh deploy.sh"
+
+  - name: telegram-notification
+    image: appleboy/drone-telegram
+    settings:
+      token:
+        from_secret: telegram_token
+      to:
+        from_secret: telegram_to
+      format: markdown
+      message: >
+        {{#success build.status}}
+        ✅ Build #{{build.number}} of `{{repo.name}}` succeeded.
+
+
+        📝 Commit by {{commit.author}} on `{{commit.branch}}`:
+
+        ```
+        {{commit.message}}
+        ```
+
+
+        🌐 {{ build.link }}
+        {{else}}
+        ❌ Build #{{build.number}} of `{{repo.name}}` failed.
+
+
+        📝 Commit by {{commit.author}} on `{{commit.branch}}`:
+
+        ```
+        {{commit.message}}
+        ```
+
+
+        🌐 {{ build.link }}
+        {{/success}}
+    when:
+      status:
+        - success
+        - failure
+
