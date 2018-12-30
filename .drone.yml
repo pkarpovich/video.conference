@@ -5,3 +5,9 @@ pipline:
     commands:
       - "npm i heroku -g"
       - "apk update && apk upgrade && apk add --no-cache bash git openssh"
+    when:
+      branch:
+        - master
+      event:
+        - push
+        - pull-request
