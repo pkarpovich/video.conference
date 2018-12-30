@@ -1,13 +1,18 @@
-pipline:
+kind: pipeline
+name: default
 
-  deploy_heroku:
+steps:
+  - name: deploy_heroku
     image: node:10.15-alpine
+    environment:
+      HEROKU_LOGIN:
+        from_secret: HEROKU_LOGIN
+      HEROKU_API_KEY:
+        from_secret: HEROKU_API_KEY
+      HEROKU_GIT_URL:
+        from_secret: HEROKU_GIT_URL
     commands:
       - "npm i heroku -g"
       - "apk update && apk upgrade && apk add --no-cache bash git openssh"
-    when:
-      branch:
-        - master
-      event:
-        - push
-        - pull-request
+      - "echo $HEROKU_LOGIN"
+      - "sh deploy.sh"
