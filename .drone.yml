@@ -1,0 +1,7 @@
+pipline:
+
+  deploy_heroku:
+    image: node:10.15-alpine
+    commands:
+      - "npm i heroku -g"
+      - "apk update && apk upgrade && apk add --no-cache bash git openssh"
