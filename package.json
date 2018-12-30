@@ -8,7 +8,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node inedx.js"
+    "start": "node index.js"
   },
   "author": "Pavel Karpovich <pavel.karpovich@outlook.com> (https://github.com/tallerstk97)",
   "license": "ISC",
