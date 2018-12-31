@@ -1,23 +1,26 @@
 {
-  "name": "video.conference",
-  "engines": {
-    "node": "10.15.0"
-  },
-  "engineStrict": true,
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js"
-  },
-  "author": "Pavel Karpovich <pavel.karpovich@outlook.com> (https://github.com/tallerstk97)",
-  "license": "ISC",
-  "dependencies": {
-    "express": "4.16.4"
-  },
-  "devDependencies": {
-    "eslint": "5.11.1",
-    "eslint-plugin-prettier": "3.0.1",
-    "prettier": "1.15.3"
-  }
+    "name": "video.conference",
+    "engines": {
+        "node": "10.15.0"
+    },
+    "engineStrict": true,
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js",
+        "precommit": "pretty-quick --staged"
+    },
+    "author": "Pavel Karpovich <pavel.karpovich@outlook.com> (https://github.com/tallerstk97)",
+    "license": "ISC",
+    "dependencies": {
+        "express": "4.16.4"
+    },
+    "devDependencies": {
+        "eslint": "5.11.1",
+        "eslint-plugin-prettier": "3.0.1",
+        "husky": "1.3.1",
+        "prettier": "1.15.3",
+        "pretty-quick": "1.8.0"
+    }
 }
