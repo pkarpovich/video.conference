@@ -2,56 +2,55 @@ kind: pipeline
 name: default
 
 steps:
-  - name: deploy_to_heroku
-    image: node:10.15-alpine
-    environment:
-      HEROKU_LOGIN:
-        from_secret: HEROKU_LOGIN
-      HEROKU_API_KEY:
-        from_secret: HEROKU_API_KEY
-      HEROKU_GIT_URL:
-        from_secret: HEROKU_GIT_URL
-    commands:
-      - "npm i heroku -g"
-      - "apk update && apk upgrade && apk add --no-cache bash git openssh"
-      - "sh ./bin/deploy.sh"
+    - name: build_fe_and_deploy_to_heroku
+      image: node:10.15-alpine
+      environment:
+          HEROKU_LOGIN:
+              from_secret: HEROKU_LOGIN
+          HEROKU_API_KEY:
+              from_secret: HEROKU_API_KEY
+          HEROKU_GIT_URL:
+              from_secret: HEROKU_GIT_URL
+      commands:
+          - 'npm i heroku -g'
+          - 'apk update && apk upgrade && apk add --no-cache bash git openssh'
+          - 'sh ./bin/deploy.sh'
 
-  - name: send_telegram_notification
-    image: appleboy/drone-telegram
-    settings:
-      token:
-        from_secret: telegram_token
-      to:
-        from_secret: telegram_to
-      format: markdown
-      message: >
-        {{#success build.status}}
-        ✅ Build #{{build.number}} of `{{repo.name}}` succeeded.
-
-
-        📝 Commit by {{commit.author}} on `{{commit.branch}}`:
-
-        ```
-        {{commit.message}}
-        ```
+    - name: send_telegram_notification
+      image: appleboy/drone-telegram
+      settings:
+          token:
+              from_secret: telegram_token
+          to:
+              from_secret: telegram_to
+          format: markdown
+          message: >
+              {{#success build.status}}
+              ✅ Build #{{build.number}} of `{{repo.name}}` succeeded.
 
 
-        🌐 {{ build.link }}
-        {{else}}
-        ❌ Build #{{build.number}} of `{{repo.name}}` failed.
+              📝 Commit by {{commit.author}} on `{{commit.branch}}`:
+
+              ```
+              {{commit.message}}
+              ```
 
 
-        📝 Commit by {{commit.author}} on `{{commit.branch}}`:
-
-        ```
-        {{commit.message}}
-        ```
+              🌐 {{ build.link }}
+              {{else}}
+              ❌ Build #{{build.number}} of `{{repo.name}}` failed.
 
 
-        🌐 {{ build.link }}
-        {{/success}}
-    when:
-      status:
-        - success
-        - failure
+              📝 Commit by {{commit.author}} on `{{commit.branch}}`:
 
+              ```
+              {{commit.message}}
+              ```
+
+
+              🌐 {{ build.link }}
+              {{/success}}
+      when:
+          status:
+              - success
+              - failure
