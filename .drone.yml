@@ -2,7 +2,7 @@ kind: pipeline
 name: default
 
 steps:
-  - name: deploy_heroku
+  - name: deploy_to_heroku
     image: node:10.15-alpine
     environment:
       HEROKU_LOGIN:
@@ -14,9 +14,9 @@ steps:
     commands:
       - "npm i heroku -g"
       - "apk update && apk upgrade && apk add --no-cache bash git openssh"
-      - "sh deploy.sh"
+      - "sh ./bin/deploy.sh"
 
-  - name: telegram-notification
+  - name: send_telegram_notification
     image: appleboy/drone-telegram
     settings:
       token:
