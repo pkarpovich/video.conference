@@ -50,7 +50,8 @@ module.exports = () => ({
     entry: configureEntries(),
     output: {
         path: path.resolve(__dirname, settings.paths.dist.base),
-        filename: '[name].bundle.[chunkhash].js'
+        filename: '[name].bundle.[chunkhash].js',
+        publicPath: '/'
     },
     module: {
         rules: [configureBabelLoader()]

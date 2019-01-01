@@ -8,5 +8,9 @@ module.exports = () => {
 
     app.use(express.static(staticPath));
 
+    app.use('*', (req, resp) => {
+        resp.sendFile(path.resolve(__dirname, '../public/index.html'));
+    });
+
     return app;
 };
